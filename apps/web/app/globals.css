@@ -2,47 +2,62 @@
 
 @layer base {
   :root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    /* Base Canvas & Surfaces */
+    --background: #F8FAFC;        /* Slate-50 */
+    --foreground: #0F172A;        /* Slate-900 */
 
-    --card: 240 10% 8%;
-    --card-foreground: 0 0% 98%;
+    --card: #FFFFFF;              /* Pure White */
+    --card-foreground: #0F172A;
+    --card-border: #E2E8F0;       /* Slate-200 */
 
-    --popover: 240 10% 8%;
-    --popover-foreground: 0 0% 98%;
+    --popover: #FFFFFF;
+    --popover-foreground: #0F172A;
 
-    --primary: 24.6 95% 53.1%;
-    --primary-foreground: 0 0% 100%;
+    /* Primary Brand Scale (Logo Blues) */
+    --primary: #2563EB;           /* Blue-600 */
+    --primary-hover: #1D4ED8;     /* Blue-700 */
+    --primary-light: #EFF6FF;     /* Blue-50 */
+    --primary-border: #BFDBFE;    /* Blue-200 */
+    --primary-foreground: #FFFFFF;
 
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    /* Secondary / Neutral Surfaces */
+    --secondary: #F1F5F9;         /* Slate-100 */
+    --secondary-foreground: #334155; /* Slate-700 */
 
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    /* Muted Typography & Backgrounds */
+    --muted: #F8FAFC;
+    --muted-foreground: #64748B;  /* Slate-500 */
 
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    /* Enhancement / Accent Scale (Warm Orange for Badges/Streaks) */
+    --accent: #F97316;            /* Orange-500 */
+    --accent-hover: #EA580C;      /* Orange-600 */
+    --accent-light: #FFF7ED;      /* Orange-50 */
+    --accent-border: #FED7AA;     /* Orange-200 */
+    --accent-foreground: #9A3412; /* Orange-800 */
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    /* Status & Borders */
+    --destructive: #EF4444;
+    --destructive-foreground: #FFFFFF;
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 24.6 95% 53.1%;
+    --border: #E2E8F0;            /* Slate-200 */
+    --input: #E2E8F0;
+    --input-bg: #F8FAFC;
+    --ring: #2563EB;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
   }
 }
 
 body {
-  background-color: #09090b;
-  color: #fafafa;
+  background-color: var(--background);
+  color: var(--foreground);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   min-height: 100vh;
 }
 
-/* Clean Minimalist Surface */
+/* Card Utility */
 .pro-card {
-  background: #18181b;
-  border: 1px solid #27272a;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.05), 0 1px 2px -1px rgba(15, 23, 42, 0.05);
 }

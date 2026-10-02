@@ -6,10 +6,10 @@ import {
   Animated,
   Image,
   Dimensions,
-  Easing
+  Easing,
 } from "react-native";
 import { useRouter } from "expo-router";
-import { COLORS } from "../constants/theme";
+import { COLORS, RADII, SHADOWS, TYPOGRAPHY } from "@/constants/theme";
 
 const { width } = Dimensions.get("window");
 
@@ -25,20 +25,20 @@ export default function SplashScreen() {
       Animated.timing(logoOpacity, {
         toValue: 1,
         duration: 800,
-        useNativeDriver: true
+        useNativeDriver: true,
       }),
       Animated.timing(logoScale, {
         toValue: 1,
         duration: 900,
         easing: Easing.out(Easing.ease),
-        useNativeDriver: true
+        useNativeDriver: true,
       }),
       Animated.timing(progressWidth, {
         toValue: 1,
         duration: 1800,
         easing: Easing.inOut(Easing.ease),
-        useNativeDriver: false
-      })
+        useNativeDriver: false,
+      }),
     ]).start();
 
     const timer = setTimeout(() => {
@@ -50,7 +50,7 @@ export default function SplashScreen() {
 
   const progressBarInterpolate = progressWidth.interpolate({
     inputRange: [0, 1],
-    outputRange: ["0%", "100%"]
+    outputRange: ["0%", "100%"],
   });
 
   return (
@@ -60,13 +60,13 @@ export default function SplashScreen() {
           styles.content,
           {
             opacity: logoOpacity,
-            transform: [{ scale: logoScale }]
+            transform: [{ scale: logoScale }],
           }
         ]}
       >
         <View style={styles.logoBadge}>
           <Image
-            source={require("../assets/icon.png")}
+            source={require("@/assets/icon.png")}
             style={styles.logo}
             resizeMode="contain"
           />
@@ -82,7 +82,7 @@ export default function SplashScreen() {
           <Animated.View
             style={[
               styles.progressBarFill,
-              { width: progressBarInterpolate }
+              { width: progressBarInterpolate },
             ]}
           />
         </View>
@@ -97,54 +97,52 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 24
+    paddingHorizontal: 24,
   },
   content: {
-    alignItems: "center"
+    alignItems: "center",
   },
   logoBadge: {
-    width: 72,
-    height: 72,
-    borderRadius: 20,
-    backgroundColor: COLORS.card,
+    width: 76,
+    height: 76,
+    borderRadius: RADII.xl,
+    backgroundColor: COLORS.surface,
     borderWidth: 1,
-    borderColor: COLORS.cardBorder,
+    borderColor: COLORS.border,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 20
+    marginBottom: 20,
+    ...SHADOWS.card,
   },
   logo: {
-    width: 48,
-    height: 48
+    width: 52,
+    height: 52,
   },
   title: {
-    fontSize: 24,
-    fontWeight: "800",
-    color: COLORS.text,
+    ...TYPOGRAPHY.title,
     letterSpacing: 2,
-    marginBottom: 8
+    marginBottom: 8,
+    textAlign: "center",
   },
   subtitle: {
-    fontSize: 13,
-    color: COLORS.textMuted,
+    ...TYPOGRAPHY.subtitle,
     textAlign: "center",
-    maxWidth: 260,
-    lineHeight: 18
+    maxWidth: 280,
   },
   loadingContainer: {
     position: "absolute",
     bottom: 50,
-    width: width * 0.4
+    width: width * 0.4,
   },
   progressBarTrack: {
-    height: 2,
-    backgroundColor: COLORS.cardBorder,
-    borderRadius: 1,
-    overflow: "hidden"
+    height: 3,
+    backgroundColor: COLORS.border,
+    borderRadius: 2,
+    overflow: "hidden",
   },
   progressBarFill: {
     height: "100%",
     backgroundColor: COLORS.primary,
-    borderRadius: 1
-  }
+    borderRadius: 2,
+  },
 });

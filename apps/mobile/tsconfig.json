@@ -3,7 +3,11 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "strict": true,
-    "moduleResolution": "bundler"
+    "moduleResolution": "bundler",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "include": [
     "**/*.ts",

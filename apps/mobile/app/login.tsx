@@ -5,353 +5,410 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Image,
-  ScrollView,
+  SafeAreaView,
   KeyboardAvoidingView,
   Platform,
-  Alert
+  ScrollView,
+  Image,
 } from "react-native";
-import { Eye, EyeOff, Mail, Lock, CheckCircle2, ArrowRight } from "lucide-react-native";
-import { COLORS, SHADOWS } from "../constants/theme";
+import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+import { COLORS, SPACING, RADII, SHADOWS, TYPOGRAPHY } from "@/constants/theme";
 
-const EXAM_OPTIONS = ["JEE Advanced", "NEET-UG", "SAT / GRE", "UPSC", "University STEM"];
+const EXAMS = [
+  "JEE Advanced",
+  "NEET-UG",
+  "SAT / GRE",
+  "UPSC",
+  "University STEM",
+];
 
 export default function LoginScreen() {
+  const router = useRouter();
+  const [selectedExam, setSelectedExam] = useState("JEE Advanced");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [selectedExam, setSelectedExam] = useState("JEE Advanced");
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleLogin = () => {
-    if (!email || !password) {
-      Alert.alert("Input Required", "Please enter both your email and password.");
-      return;
-    }
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      Alert.alert("Success", "Welcome to Adhyayan AI!");
-    }, 800);
+    router.replace("/");
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
-    >
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
+    <SafeAreaView style={styles.safeArea}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.keyboardContainer}
       >
-        {/* Header */}
-        <View style={styles.header}>
-          <View style={styles.logoBadge}>
-            <Image
-              source={require("../assets/icon.png")}
-              style={styles.logo}
-              resizeMode="contain"
-            />
-          </View>
-          <Text style={styles.title}>Sign in to Adhyayan AI</Text>
-          <Text style={styles.subtitle}>
-            Your intelligent AI tutor & doubt resolution workspace.
-          </Text>
-        </View>
-
-        {/* Auth Card */}
-        <View style={styles.card}>
-          {/* Target Exam Selector */}
-          <Text style={styles.label}>TARGET EXAM / GOAL</Text>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.examRow}
-          >
-            {EXAM_OPTIONS.map((exam) => {
-              const isSelected = selectedExam === exam;
-              return (
-                <TouchableOpacity
-                  key={exam}
-                  activeOpacity={0.8}
-                  onPress={() => setSelectedExam(exam)}
-                  style={[
-                    styles.examPill,
-                    isSelected && styles.examPillActive
-                  ]}
-                >
-                  <Text
-                    style={[
-                      styles.examPillText,
-                      isSelected && styles.examPillTextActive
-                    ]}
-                  >
-                    {exam}
-                  </Text>
-                  {isSelected && (
-                    <CheckCircle2 size={13} color={COLORS.primary} style={{ marginLeft: 4 }} />
-                  )}
-                </TouchableOpacity>
-              );
-            })}
-          </ScrollView>
-
-          {/* Email Input */}
-          <Text style={[styles.label, { marginTop: 16 }]}>EMAIL ADDRESS</Text>
-          <View style={styles.inputWrapper}>
-            <Mail size={16} color={COLORS.textDim} style={styles.inputIcon} />
-            <TextInput
-              value={email}
-              onChangeText={setEmail}
-              placeholder="student@adhyayan.ai"
-              placeholderTextColor={COLORS.textDim}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              style={styles.input}
-            />
-          </View>
-
-          {/* Password Input */}
-          <View style={styles.passwordLabelRow}>
-            <Text style={styles.label}>PASSWORD</Text>
-            <TouchableOpacity>
-              <Text style={styles.forgotPassText}>Forgot?</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.inputWrapper}>
-            <Lock size={16} color={COLORS.textDim} style={styles.inputIcon} />
-            <TextInput
-              value={password}
-              onChangeText={setPassword}
-              placeholder="••••••••••••"
-              placeholderTextColor={COLORS.textDim}
-              secureTextEntry={!showPassword}
-              style={styles.input}
-            />
-            <TouchableOpacity
-              onPress={() => setShowPassword(!showPassword)}
-              style={styles.eyeIcon}
-            >
-              {showPassword ? (
-                <EyeOff size={16} color={COLORS.textDim} />
-              ) : (
-                <Eye size={16} color={COLORS.textDim} />
-              )}
-            </TouchableOpacity>
-          </View>
-
-          {/* Submit Button */}
-          <TouchableOpacity
-            activeOpacity={0.85}
-            onPress={handleLogin}
-            disabled={isSubmitting}
-            style={[styles.signInBtn, isSubmitting && { opacity: 0.6 }]}
-          >
-            <Text style={styles.signInBtnText}>
-              {isSubmitting ? "Signing In..." : "Continue to Workspace"}
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
+          {/* Logo & Header */}
+          <View style={styles.header}>
+            <View style={styles.logoContainer}>
+              <Image
+                source={require("@/assets/icon.png")}
+                style={styles.logoImage}
+                resizeMode="contain"
+              />
+            </View>
+            <View style={styles.badge}>
+              <Ionicons name="sparkles" size={13} color={COLORS.accent} />
+              <Text style={styles.badgeText}>Socratic AI Learning</Text>
+            </View>
+            <Text style={styles.title}>Sign in to Adhyayan AI</Text>
+            <Text style={styles.subtitle}>
+              Your intelligent AI tutor & doubt resolution workspace.
             </Text>
-            <ArrowRight size={16} color="#FFFFFF" style={{ marginLeft: 6 }} />
-          </TouchableOpacity>
-
-          {/* Divider */}
-          <View style={styles.dividerRow}>
-            <View style={styles.dividerLine} />
-            <Text style={styles.dividerText}>or</Text>
-            <View style={styles.dividerLine} />
           </View>
 
-          {/* Google Sign In Button */}
-          <TouchableOpacity activeOpacity={0.8} style={styles.socialBtn}>
-            <Text style={styles.socialBtnText}>Continue with Google</Text>
-          </TouchableOpacity>
-        </View>
+          {/* Login Card */}
+          <View style={styles.card}>
+            {/* Target Goal Selector */}
+            <View style={styles.section}>
+              <Text style={styles.sectionLabel}>Target Academic Goal</Text>
+              <View style={styles.chipRow}>
+                {EXAMS.map((exam) => {
+                  const isSelected = selectedExam === exam;
+                  return (
+                    <TouchableOpacity
+                      key={exam}
+                      style={[
+                        styles.chip,
+                        isSelected ? styles.chipActive : styles.chipInactive,
+                      ]}
+                      onPress={() => setSelectedExam(exam)}
+                      activeOpacity={0.7}
+                    >
+                      <Text
+                        style={[
+                          styles.chipText,
+                          isSelected
+                            ? styles.chipTextActive
+                            : styles.chipTextInactive,
+                        ]}
+                      >
+                        {exam}
+                      </Text>
+                      {isSelected && (
+                        <Ionicons
+                          name="checkmark-circle"
+                          size={14}
+                          color={COLORS.primary}
+                          style={styles.chipIcon}
+                        />
+                      )}
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            </View>
 
-        {/* Footer */}
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>Don't have an account? </Text>
-          <TouchableOpacity>
-            <Text style={styles.signUpText}>Sign Up</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+            {/* Email Field */}
+            <View style={styles.inputGroup}>
+              <Text style={styles.inputLabel}>Email Address</Text>
+              <View style={styles.inputContainer}>
+                <Ionicons
+                  name="mail-outline"
+                  size={18}
+                  color={COLORS.textMuted}
+                  style={styles.inputIcon}
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="student@adhyayan.ai"
+                  placeholderTextColor={COLORS.textMuted}
+                  value={email}
+                  onChangeText={setEmail}
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                />
+              </View>
+            </View>
+
+            {/* Password Field */}
+            <View style={styles.inputGroup}>
+              <View style={styles.labelRow}>
+                <Text style={styles.inputLabel}>Password</Text>
+                <TouchableOpacity activeOpacity={0.6}>
+                  <Text style={styles.forgotText}>Forgot password?</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.inputContainer}>
+                <Ionicons
+                  name="lock-closed-outline"
+                  size={18}
+                  color={COLORS.textMuted}
+                  style={styles.inputIcon}
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="••••••••••••"
+                  placeholderTextColor={COLORS.textMuted}
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry
+                />
+              </View>
+            </View>
+
+            {/* Primary Action Button */}
+            <TouchableOpacity
+              style={styles.primaryButton}
+              onPress={handleLogin}
+              activeOpacity={0.85}
+            >
+              <Text style={styles.primaryButtonText}>Continue to Workspace</Text>
+              <Ionicons
+                name="arrow-forward"
+                size={18}
+                color={COLORS.textInverse}
+                style={styles.buttonIcon}
+              />
+            </TouchableOpacity>
+
+            {/* Divider */}
+            <View style={styles.dividerRow}>
+              <View style={styles.dividerLine} />
+              <Text style={styles.dividerText}>OR</Text>
+              <View style={styles.dividerLine} />
+            </View>
+
+            {/* Social Login Button */}
+            <TouchableOpacity
+              style={styles.secondaryButton}
+              activeOpacity={0.7}
+            >
+              <Ionicons
+                name="logo-google"
+                size={18}
+                color={COLORS.text}
+                style={styles.socialIcon}
+              />
+              <Text style={styles.secondaryButtonText}>Continue with Google</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Footer Note */}
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>
+              By continuing, you agree to our Terms of Service & Privacy Policy.
+            </Text>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    backgroundColor: COLORS.background
+    backgroundColor: COLORS.background,
+  },
+  keyboardContainer: {
+    flex: 1,
   },
   scrollContent: {
-    paddingHorizontal: 20,
-    paddingTop: 60,
-    paddingBottom: 40
+    paddingHorizontal: SPACING.xxl,
+    paddingVertical: SPACING.hero,
+    alignItems: "center",
   },
   header: {
     alignItems: "center",
-    marginBottom: 24
+    marginBottom: SPACING.xxl,
   },
-  logoBadge: {
-    width: 56,
-    height: 56,
-    borderRadius: 16,
-    backgroundColor: COLORS.card,
-    borderWidth: 1,
-    borderColor: COLORS.cardBorder,
-    alignItems: "center",
+  logoContainer: {
+    width: 64,
+    height: 64,
+    borderRadius: RADII.lg,
+    backgroundColor: COLORS.surface,
     justifyContent: "center",
-    marginBottom: 16
+    alignItems: "center",
+    marginBottom: SPACING.lg,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    ...SHADOWS.subtle,
   },
-  logo: {
-    width: 36,
-    height: 36
+  logoImage: {
+    width: 44,
+    height: 44,
+    borderRadius: RADII.sm,
+  },
+  badge: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: COLORS.accentLight,
+    paddingHorizontal: SPACING.md,
+    paddingVertical: SPACING.xs + 1,
+    borderRadius: RADII.full,
+    borderWidth: 1,
+    borderColor: COLORS.accentBorder,
+    marginBottom: SPACING.md,
+    gap: SPACING.xs,
+  },
+  badgeText: {
+    fontSize: 12,
+    fontWeight: "600",
+    color: COLORS.accent,
   },
   title: {
-    fontSize: 22,
-    fontWeight: "700",
-    color: COLORS.text,
-    letterSpacing: -0.3,
-    marginBottom: 6
+    ...TYPOGRAPHY.title,
+    textAlign: "center",
+    marginBottom: SPACING.xs + 2,
   },
   subtitle: {
-    fontSize: 13,
-    color: COLORS.textMuted,
+    ...TYPOGRAPHY.subtitle,
     textAlign: "center",
-    maxWidth: 260,
-    lineHeight: 18
+    maxWidth: 300,
   },
   card: {
-    backgroundColor: COLORS.card,
-    borderRadius: 18,
+    width: "100%",
+    maxWidth: 420,
+    backgroundColor: COLORS.surface,
+    borderRadius: RADII.xl,
+    padding: SPACING.xxl,
     borderWidth: 1,
-    borderColor: COLORS.cardBorder,
-    padding: 20,
-    ...SHADOWS.card
+    borderColor: COLORS.border,
+    ...SHADOWS.card,
   },
-  label: {
-    fontSize: 11,
-    fontWeight: "700",
-    color: COLORS.textMuted,
-    letterSpacing: 0.8,
-    marginBottom: 6
+  section: {
+    marginBottom: SPACING.xl,
   },
-  passwordLabelRow: {
+  sectionLabel: {
+    ...TYPOGRAPHY.label,
+    marginBottom: SPACING.sm,
+  },
+  chipRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: SPACING.sm,
+  },
+  chip: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: SPACING.md,
+    paddingVertical: SPACING.sm - 1,
+    borderRadius: RADII.md,
+    borderWidth: 1,
+  },
+  chipActive: {
+    backgroundColor: COLORS.primaryLight,
+    borderColor: COLORS.primaryBorder,
+  },
+  chipInactive: {
+    backgroundColor: COLORS.surfaceSubtle,
+    borderColor: COLORS.border,
+  },
+  chipText: {
+    fontSize: 13,
+    fontWeight: "500",
+  },
+  chipTextActive: {
+    color: COLORS.primary,
+    fontWeight: "600",
+  },
+  chipTextInactive: {
+    color: COLORS.textSecondary,
+  },
+  chipIcon: {
+    marginLeft: SPACING.xs,
+  },
+  inputGroup: {
+    marginBottom: SPACING.lg,
+  },
+  labelRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 14,
-    marginBottom: 6
+    marginBottom: SPACING.xs + 2,
   },
-  forgotPassText: {
-    color: COLORS.primary,
+  inputLabel: {
+    ...TYPOGRAPHY.label,
+    marginBottom: SPACING.xs + 2,
+  },
+  forgotText: {
     fontSize: 12,
-    fontWeight: "600"
+    color: COLORS.primary,
+    fontWeight: "500",
   },
-  examRow: {
-    gap: 8,
-    paddingVertical: 2
-  },
-  examPill: {
+  inputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.surfaceSubtle,
+    borderRadius: RADII.md,
     borderWidth: 1,
-    borderColor: COLORS.cardBorder
-  },
-  examPillActive: {
-    backgroundColor: COLORS.primaryMuted,
-    borderColor: COLORS.primary
-  },
-  examPillText: {
-    fontSize: 12,
-    color: COLORS.textMuted,
-    fontWeight: "500"
-  },
-  examPillTextActive: {
-    color: COLORS.primary,
-    fontWeight: "700"
-  },
-  inputWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: COLORS.background,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: COLORS.cardBorder,
-    paddingHorizontal: 12,
-    height: 44
+    borderColor: COLORS.border,
+    paddingHorizontal: SPACING.md,
   },
   inputIcon: {
-    marginRight: 8
+    marginRight: SPACING.sm,
   },
   input: {
     flex: 1,
+    height: 46,
     color: COLORS.text,
-    fontSize: 14
+    fontSize: 15,
   },
-  eyeIcon: {
-    padding: 4
-  },
-  signInBtn: {
+  primaryButton: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: COLORS.primary,
-    height: 44,
-    borderRadius: 10,
-    marginTop: 18
+    borderRadius: RADII.md,
+    height: 48,
+    marginTop: SPACING.sm,
+    ...SHADOWS.primaryBtn,
   },
-  signInBtnText: {
-    color: "#FFFFFF",
-    fontSize: 14,
-    fontWeight: "700"
+  primaryButtonText: {
+    ...TYPOGRAPHY.button,
+  },
+  buttonIcon: {
+    marginLeft: SPACING.xs,
   },
   dividerRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 18
+    marginVertical: SPACING.xl,
   },
   dividerLine: {
     flex: 1,
     height: 1,
-    backgroundColor: COLORS.cardBorder
+    backgroundColor: COLORS.border,
   },
   dividerText: {
-    color: COLORS.textDim,
-    fontSize: 11,
-    paddingHorizontal: 10,
-    fontWeight: "500"
+    marginHorizontal: SPACING.md,
+    fontSize: 12,
+    color: COLORS.textMuted,
+    fontWeight: "600",
   },
-  socialBtn: {
-    height: 42,
-    borderRadius: 10,
-    backgroundColor: COLORS.background,
-    borderWidth: 1,
-    borderColor: COLORS.cardBorder,
+  secondaryButton: {
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    backgroundColor: COLORS.surface,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    borderRadius: RADII.md,
+    height: 46,
   },
-  socialBtnText: {
+  socialIcon: {
+    marginRight: SPACING.sm,
+  },
+  secondaryButtonText: {
+    fontSize: 14,
+    fontWeight: "600",
     color: COLORS.text,
-    fontSize: 13,
-    fontWeight: "600"
   },
   footer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    marginTop: 24
+    marginTop: SPACING.xxl,
+    alignItems: "center",
   },
   footerText: {
+    fontSize: 12,
     color: COLORS.textMuted,
-    fontSize: 13
+    textAlign: "center",
+    maxWidth: 320,
+    lineHeight: 18,
   },
-  signUpText: {
-    color: COLORS.primary,
-    fontSize: 13,
-    fontWeight: "700"
-  }
 });
