@@ -1,25 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
-import { Sparkles, ArrowRight, Lock, Mail, CheckCircle2 } from "lucide-react";
-
-const EXAMS = [
-  "JEE Advanced",
-  "NEET-UG",
-  "SAT / GRE",
-  "UPSC",
-  "University STEM"
-];
 
 export default function WebLoginPage() {
-  const [selectedExam, setSelectedExam] = useState("JEE Advanced");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
   return (
-    <main className="min-h-screen flex items-center justify-center p-4 sm:p-6 bg-[var(--background)] text-[var(--foreground)]">
-      <div className="w-full max-w-[440px] flex flex-col items-center">
+    <main className="min-h-screen flex items-center justify-center p-4 bg-[var(--background)] text-[var(--foreground)]">
+      <div className="w-full max-w-[380px] flex flex-col items-center">
         {/* Logo & Header */}
         <div className="flex flex-col items-center text-center mb-8">
           <div className="w-16 h-16 rounded-2xl bg-[var(--card)] border border-[var(--card-border)] flex items-center justify-center mb-4 shadow-sm">
@@ -33,119 +20,22 @@ export default function WebLoginPage() {
             />
           </div>
           
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--accent-light)] border border-[var(--accent-border)] text-[var(--accent)] text-xs font-semibold mb-3">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Socratic AI Learning Platform</span>
-          </div>
-          
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--foreground)]">
-            Sign in to Adhyayan AI
+          <h1 className="text-2xl font-bold tracking-tight text-[var(--foreground)]">
+            Adhyayan AI
           </h1>
-          <p className="text-sm text-[var(--muted-foreground)] mt-1.5 max-w-[320px]">
-            Your intelligent AI tutor & doubt resolution workspace.
+          <p className="text-sm text-[var(--muted-foreground)] mt-1">
+            Sign in to continue
           </p>
         </div>
 
         {/* Login Card */}
-        <div className="w-full pro-card rounded-2xl p-6 sm:p-8 bg-[var(--card)]">
-          {/* Target Goal Selector */}
-          <div className="mb-6">
-            <label className="block text-xs font-semibold uppercase tracking-wider text-[var(--muted-foreground)] mb-2.5">
-              Target Academic Goal
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {EXAMS.map((exam) => {
-                const isSelected = selectedExam === exam;
-                return (
-                  <button
-                    key={exam}
-                    type="button"
-                    onClick={() => setSelectedExam(exam)}
-                    className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors border ${
-                      isSelected
-                        ? "bg-[var(--primary-light)] text-[var(--primary)] border-[var(--primary-border)] font-semibold"
-                        : "bg-[var(--secondary)] text-[var(--secondary-foreground)] border-[var(--card-border)] hover:bg-[var(--muted)]"
-                    }`}
-                  >
-                    <span>{exam}</span>
-                    {isSelected && <CheckCircle2 className="w-3.5 h-3.5" />}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Form */}
-          <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-            <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-[var(--muted-foreground)] mb-1.5">
-                Email Address
-              </label>
-              <div className="relative flex items-center">
-                <Mail className="absolute left-3 w-4 h-4 text-[var(--muted-foreground)]" />
-                <input
-                  type="email"
-                  placeholder="student@adhyayan.ai"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full h-11 pl-9 pr-3 rounded-lg bg-[var(--input-bg)] border border-[var(--border)] text-sm text-[var(--foreground)] placeholder-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--ring)] focus:border-transparent transition"
-                  required
-                />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex items-center justify-between mb-1.5">
-                <label className="block text-xs font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">
-                  Password
-                </label>
-                <a
-                  href="#forgot"
-                  className="text-xs text-[var(--primary)] hover:underline font-medium"
-                >
-                  Forgot password?
-                </a>
-              </div>
-              <div className="relative flex items-center">
-                <Lock className="absolute left-3 w-4 h-4 text-[var(--muted-foreground)]" />
-                <input
-                  type="password"
-                  placeholder="••••••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full h-11 pl-9 pr-3 rounded-lg bg-[var(--input-bg)] border border-[var(--border)] text-sm text-[var(--foreground)] placeholder-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--ring)] focus:border-transparent transition"
-                  required
-                />
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              className="w-full h-11 rounded-lg bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-[var(--primary-foreground)] font-semibold text-sm flex items-center justify-center gap-2 shadow-sm transition-colors mt-2"
-            >
-              <span>Continue to Workspace</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </form>
-
-          {/* Divider */}
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-[var(--border)]" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-[var(--card)] px-3 text-[var(--muted-foreground)] font-medium">
-                Or
-              </span>
-            </div>
-          </div>
-
-          {/* Social Auth */}
+        <div className="w-full pro-card rounded-2xl p-6 sm:p-7 bg-[var(--card)] space-y-3.5 shadow-sm border border-[var(--border)]">
+          {/* Google Sign In */}
           <button
             type="button"
-            className="w-full h-11 rounded-lg bg-[var(--card)] border border-[var(--border)] text-sm font-semibold text-[var(--foreground)] hover:bg-[var(--secondary)] transition-colors flex items-center justify-center gap-2"
+            className="w-full h-12 rounded-xl bg-[var(--card)] border border-[var(--border)] text-sm font-semibold text-[var(--foreground)] hover:bg-[var(--secondary)] transition-colors flex items-center justify-center gap-3 px-4 shadow-xs"
           >
-            <svg className="w-4 h-4" viewBox="0 0 24 24">
+            <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path
                 fill="#4285F4"
                 d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -165,11 +55,22 @@ export default function WebLoginPage() {
             </svg>
             <span>Continue with Google</span>
           </button>
+
+          {/* GitHub Sign In */}
+          <button
+            type="button"
+            className="w-full h-12 rounded-xl bg-[var(--card)] border border-[var(--border)] text-sm font-semibold text-[var(--foreground)] hover:bg-[var(--secondary)] transition-colors flex items-center justify-center gap-3 px-4 shadow-xs"
+          >
+            <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+            </svg>
+            <span>Continue with GitHub</span>
+          </button>
         </div>
 
         {/* Footer */}
-        <p className="text-xs text-[var(--muted-foreground)] text-center mt-6 max-w-[320px]">
-          By continuing, you agree to our Terms of Service & Privacy Policy.
+        <p className="text-xs text-[var(--muted-foreground)] text-center mt-6 max-w-[280px] leading-relaxed">
+          By continuing, you agree to our Terms of Service and Privacy Policy.
         </p>
       </div>
     </main>
