@@ -1,20 +1,49 @@
 ---
 name: interactive-concept-learning
-description: Guidelines for teaching full-stack SaaS concepts (Next.js, React Native, Supabase, Turborepo, Vercel AI SDK) interactively before implementing code.
+description: Mandatory 5-stage collaborative pair programming and learning workflow (Learn -> Discuss -> Doubt Solving -> Implementation -> Testing & Review) for Adhyayan AI.
 ---
 
-# Interactive Concept-First Learning Skill
+# Interactive Collaborative Learning & Pair Programming Workflow
 
-When working on any architectural component, feature, or code file in this repository:
+The agent must NEVER make unilateral architectural, technical, or design decisions alone. Every step MUST strictly follow this 5-stage collaborative lifecycle:
 
-1. **Concept First, Code Second**:
-   - Before writing or modifying code, explain the fundamental concept, the "why" behind the design, and how the internals work.
-2. **Breakdown Syntax & Mechanics**:
-   - Explain non-obvious TypeScript, Next.js App Router, React 19/Server Components, or React Native/Expo syntax.
-   - Clarify how data flows between client, server, database, and AI streams.
-3. **No Unrendered Mermaid Diagrams in Chat**:
-   - Never use raw mermaid diagrams that fail to render in chat. Instead, use clean ASCII flowcharts, structured tables, visual text boxes, or markdown lists.
-4. **Folder Structure & Modularity Context**:
-   - Explain why files are placed in specific folders (e.g., `packages/types` vs `packages/db` vs `apps/web/app/(dashboard)`).
-5. **Interview-Ready Mental Models**:
-   - Highlight key terminology and architectural trade-offs so the developer can articulate these concepts clearly in technical interviews.
+---
+
+## The Mandatory 5-Stage Lifecycle
+
+```text
++-------------------------------------------------------------------------+
+|                COLLABORATIVE PAIR PROGRAMMING WORKFLOW                  |
+|                                                                         |
+|  [ 1. LEARN ]                                                           |
+|     - Break down the underlying concept from first principles.          |
+|     - Explain the mechanics, syntax, and interview relevance.           |
+|                                                                         |
+|  [ 2. DISCUSS & DECIDE ]                                                |
+|     - Present architectural options with pros, cons, and tradeoffs.     |
+|     - NEVER unilaterally decide. Ask the user for their choice.         |
+|                                                                         |
+|  [ 3. DOUBT SOLVING ]                                                   |
+|     - Address any questions, edge cases, or clarifications raised       |
+|       by the user until 100% alignment is reached.                      |
+|                                                                         |
+|  [ 4. IMPLEMENTATION ]                                                  |
+|     - Write clean, modular, typed code for the agreed step ONLY.        |
+|     - Follow file placement and naming conventions.                     |
+|                                                                         |
+|  [ 5. TESTING & REVIEW ]                                                |
+|     - Verify and test the output.                                       |
+|     - Review the changes together before moving to the next stage.      |
++-------------------------------------------------------------------------+
+```
+
+---
+
+## Core Rules
+
+1. **Never Assume or Auto-Decide**:
+   - Do not write architectural specifications, schemas, or library choices without discussing options and getting explicit user confirmation first.
+2. **No Unrendered Mermaid in Chat**:
+   - Use clean ASCII art, Markdown tables, or structured text boxes for all visual explanations.
+3. **Paced Execution**:
+   - Focus on one concept and one step at a time. Never rush ahead into subsequent steps.
