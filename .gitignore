@@ -1,0 +1,52 @@
+# Ignore old hackathon legacy code
+old_shit/
+old_shit/**
+
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Next.js
+apps/web/.next/
+apps/web/out/
+
+# Production build artifacts
+dist/
+build/
+.turbo/
+
+# Expo / React Native
+apps/mobile/.expo/
+apps/mobile/android/
+apps/mobile/ios/
+
+# Environment Variables & Secrets
+.env
+.env*.local
+.env.development
+.env.production
+.env.test
+*.pem
+
+# IDE & OS files
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+*.log
+
+# Supabase Local
+.supabase/

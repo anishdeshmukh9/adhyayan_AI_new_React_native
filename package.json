@@ -1,0 +1,23 @@
+{
+  "name": "adhyayan-ai-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Production-grade Multimodal AI Learning & Doubts Resolution Platform",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "check-types": "turbo run check-types",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\""
+  },
+  "devDependencies": {
+    "prettier": "^3.5.3",
+    "turbo": "^2.4.4",
+    "typescript": "^5.8.2"
+  },
+  "packageManager": "pnpm@11.6.0",
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
