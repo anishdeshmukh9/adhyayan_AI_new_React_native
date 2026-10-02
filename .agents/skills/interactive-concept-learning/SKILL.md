@@ -43,7 +43,16 @@ The agent must NEVER make unilateral architectural, technical, or design decisio
 
 1. **Never Assume or Auto-Decide**:
    - Do not write architectural specifications, schemas, or library choices without discussing options and getting explicit user confirmation first.
-2. **No Unrendered Mermaid in Chat**:
+
+2. **No Hallucinated Fluff or Filler Text**:
+   - Never invent arbitrary marketing slogans, fake badges, unconfirmed goal lists, or AI-generated filler text that requires rework.
+   - Keep UI design strictly minimal, functional, and limited to explicitly agreed elements.
+
+3. **Pure Token-Driven Theming**:
+   - Always reference centralized design tokens (`theme.ts` for Mobile, CSS variables for Web). Never hardcode raw hex values in components.
+
+4. **No Unrendered Mermaid in Chat**:
    - Use clean ASCII art, Markdown tables, or structured text boxes for all visual explanations.
-3. **Paced Execution**:
+
+5. **Paced Execution**:
    - Focus on one concept and one step at a time. Never rush ahead into subsequent steps.
