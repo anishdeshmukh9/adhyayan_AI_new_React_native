@@ -4,10 +4,12 @@
   "private": true,
   "description": "Production-grade Multimodal AI Learning & Doubts Resolution Platform",
   "scripts": {
-    "build": "turbo run build",
     "dev": "turbo run dev",
-    "lint": "turbo run lint",
+    "dev:web": "pnpm --filter web dev",
+    "dev:mobile": "pnpm --filter mobile dev",
+    "build": "turbo run build",
     "check-types": "turbo run check-types",
+    "lint": "turbo run lint",
     "clean": "turbo run clean && rm -rf node_modules",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\""
   },
