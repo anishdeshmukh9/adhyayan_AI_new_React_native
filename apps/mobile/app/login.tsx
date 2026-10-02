@@ -11,18 +11,16 @@ import {
   Platform,
   Alert
 } from "react-native";
-import { useRouter } from "expo-router";
-import { Eye, EyeOff, Sparkles, Mail, Lock, CheckCircle2 } from "lucide-react-native";
+import { Eye, EyeOff, Mail, Lock, CheckCircle2, ArrowRight } from "lucide-react-native";
 import { COLORS, SHADOWS } from "../constants/theme";
 
-const EXAM_OPTIONS = ["JEE", "NEET", "SAT", "UPSC", "University", "High School"];
+const EXAM_OPTIONS = ["JEE Advanced", "NEET-UG", "SAT / GRE", "UPSC", "University STEM"];
 
 export default function LoginScreen() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [selectedExam, setSelectedExam] = useState("JEE");
+  const [selectedExam, setSelectedExam] = useState("JEE Advanced");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleLogin = () => {
@@ -31,11 +29,10 @@ export default function LoginScreen() {
       return;
     }
     setIsSubmitting(true);
-    // Simulate login & transition
     setTimeout(() => {
       setIsSubmitting(false);
       Alert.alert("Success", "Welcome to Adhyayan AI!");
-    }, 1200);
+    }, 800);
   };
 
   return (
@@ -47,7 +44,7 @@ export default function LoginScreen() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* Top Header */}
+        {/* Header */}
         <View style={styles.header}>
           <View style={styles.logoBadge}>
             <Image
@@ -56,16 +53,16 @@ export default function LoginScreen() {
               resizeMode="contain"
             />
           </View>
-          <Text style={styles.title}>Welcome Back</Text>
+          <Text style={styles.title}>Sign in to Adhyayan AI</Text>
           <Text style={styles.subtitle}>
-            Sign in to continue your personalized AI learning journey.
+            Your intelligent AI tutor & doubt resolution workspace.
           </Text>
         </View>
 
-        {/* Auth Glass Card */}
+        {/* Auth Card */}
         <View style={styles.card}>
           {/* Target Exam Selector */}
-          <Text style={styles.label}>SELECT YOUR GOAL / EXAM</Text>
+          <Text style={styles.label}>TARGET EXAM / GOAL</Text>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -92,7 +89,7 @@ export default function LoginScreen() {
                     {exam}
                   </Text>
                   {isSelected && (
-                    <CheckCircle2 size={12} color={COLORS.primary} style={{ marginLeft: 4 }} />
+                    <CheckCircle2 size={13} color={COLORS.primary} style={{ marginLeft: 4 }} />
                   )}
                 </TouchableOpacity>
               );
@@ -100,9 +97,9 @@ export default function LoginScreen() {
           </ScrollView>
 
           {/* Email Input */}
-          <Text style={[styles.label, { marginTop: 18 }]}>EMAIL ADDRESS</Text>
+          <Text style={[styles.label, { marginTop: 16 }]}>EMAIL ADDRESS</Text>
           <View style={styles.inputWrapper}>
-            <Mail size={18} color={COLORS.textDim} style={styles.inputIcon} />
+            <Mail size={16} color={COLORS.textDim} style={styles.inputIcon} />
             <TextInput
               value={email}
               onChangeText={setEmail}
@@ -115,9 +112,14 @@ export default function LoginScreen() {
           </View>
 
           {/* Password Input */}
-          <Text style={[styles.label, { marginTop: 16 }]}>PASSWORD</Text>
+          <View style={styles.passwordLabelRow}>
+            <Text style={styles.label}>PASSWORD</Text>
+            <TouchableOpacity>
+              <Text style={styles.forgotPassText}>Forgot?</Text>
+            </TouchableOpacity>
+          </View>
           <View style={styles.inputWrapper}>
-            <Lock size={18} color={COLORS.textDim} style={styles.inputIcon} />
+            <Lock size={16} color={COLORS.textDim} style={styles.inputIcon} />
             <TextInput
               value={password}
               onChangeText={setPassword}
@@ -131,41 +133,36 @@ export default function LoginScreen() {
               style={styles.eyeIcon}
             >
               {showPassword ? (
-                <EyeOff size={18} color={COLORS.textDim} />
+                <EyeOff size={16} color={COLORS.textDim} />
               ) : (
-                <Eye size={18} color={COLORS.textDim} />
+                <Eye size={16} color={COLORS.textDim} />
               )}
             </TouchableOpacity>
           </View>
 
-          {/* Forgot Password */}
-          <TouchableOpacity style={styles.forgotPassBtn}>
-            <Text style={styles.forgotPassText}>Forgot Password?</Text>
-          </TouchableOpacity>
-
-          {/* Sign In Button */}
+          {/* Submit Button */}
           <TouchableOpacity
             activeOpacity={0.85}
             onPress={handleLogin}
             disabled={isSubmitting}
-            style={[styles.signInBtn, isSubmitting && { opacity: 0.7 }]}
+            style={[styles.signInBtn, isSubmitting && { opacity: 0.6 }]}
           >
-            <Sparkles size={18} color="#FFFFFF" style={{ marginRight: 8 }} />
             <Text style={styles.signInBtnText}>
-              {isSubmitting ? "Signing In..." : "Sign In to Workspace"}
+              {isSubmitting ? "Signing In..." : "Continue to Workspace"}
             </Text>
+            <ArrowRight size={16} color="#FFFFFF" style={{ marginLeft: 6 }} />
           </TouchableOpacity>
 
           {/* Divider */}
           <View style={styles.dividerRow}>
             <View style={styles.dividerLine} />
-            <Text style={styles.dividerText}>or continue with</Text>
+            <Text style={styles.dividerText}>or</Text>
             <View style={styles.dividerLine} />
           </View>
 
-          {/* 1-Tap Google Button */}
+          {/* Google Sign In Button */}
           <TouchableOpacity activeOpacity={0.8} style={styles.socialBtn}>
-            <Text style={styles.socialBtnText}>Google Account</Text>
+            <Text style={styles.socialBtnText}>Continue with Google</Text>
           </TouchableOpacity>
         </View>
 
@@ -173,7 +170,7 @@ export default function LoginScreen() {
         <View style={styles.footer}>
           <Text style={styles.footerText}>Don't have an account? </Text>
           <TouchableOpacity>
-            <Text style={styles.signUpText}>Create Account</Text>
+            <Text style={styles.signUpText}>Sign Up</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -196,38 +193,37 @@ const styles = StyleSheet.create({
     marginBottom: 24
   },
   logoBadge: {
-    width: 68,
-    height: 68,
-    borderRadius: 20,
+    width: 56,
+    height: 56,
+    borderRadius: 16,
     backgroundColor: COLORS.card,
     borderWidth: 1,
     borderColor: COLORS.cardBorder,
     alignItems: "center",
     justifyContent: "center",
-    ...SHADOWS.glowPrimary,
     marginBottom: 16
   },
   logo: {
-    width: 44,
-    height: 44
+    width: 36,
+    height: 36
   },
   title: {
-    fontSize: 26,
-    fontWeight: "800",
+    fontSize: 22,
+    fontWeight: "700",
     color: COLORS.text,
-    letterSpacing: 0.5,
+    letterSpacing: -0.3,
     marginBottom: 6
   },
   subtitle: {
-    fontSize: 14,
+    fontSize: 13,
     color: COLORS.textMuted,
     textAlign: "center",
-    maxWidth: 280,
-    lineHeight: 20
+    maxWidth: 260,
+    lineHeight: 18
   },
   card: {
-    backgroundColor: COLORS.cardGlass,
-    borderRadius: 24,
+    backgroundColor: COLORS.card,
+    borderRadius: 18,
     borderWidth: 1,
     borderColor: COLORS.cardBorder,
     padding: 20,
@@ -236,9 +232,21 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 11,
     fontWeight: "700",
-    color: COLORS.textDim,
-    letterSpacing: 1,
-    marginBottom: 8
+    color: COLORS.textMuted,
+    letterSpacing: 0.8,
+    marginBottom: 6
+  },
+  passwordLabelRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 14,
+    marginBottom: 6
+  },
+  forgotPassText: {
+    color: COLORS.primary,
+    fontSize: 12,
+    fontWeight: "600"
   },
   examRow: {
     gap: 8,
@@ -247,75 +255,65 @@ const styles = StyleSheet.create({
   examPill: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    borderRadius: 16,
-    backgroundColor: "rgba(255, 255, 255, 0.04)",
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 8,
+    backgroundColor: COLORS.background,
     borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.08)"
+    borderColor: COLORS.cardBorder
   },
   examPillActive: {
-    backgroundColor: "rgba(139, 92, 246, 0.15)",
+    backgroundColor: COLORS.primaryMuted,
     borderColor: COLORS.primary
   },
   examPillText: {
-    fontSize: 13,
+    fontSize: 12,
     color: COLORS.textMuted,
-    fontWeight: "600"
+    fontWeight: "500"
   },
   examPillTextActive: {
-    color: COLORS.text,
+    color: COLORS.primary,
     fontWeight: "700"
   },
   inputWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "rgba(3, 7, 18, 0.6)",
-    borderRadius: 14,
+    backgroundColor: COLORS.background,
+    borderRadius: 10,
     borderWidth: 1,
     borderColor: COLORS.cardBorder,
-    paddingHorizontal: 14,
-    height: 50
+    paddingHorizontal: 12,
+    height: 44
   },
   inputIcon: {
-    marginRight: 10
+    marginRight: 8
   },
   input: {
     flex: 1,
     color: COLORS.text,
-    fontSize: 15
+    fontSize: 14
   },
   eyeIcon: {
-    padding: 6
-  },
-  forgotPassBtn: {
-    alignSelf: "flex-end",
-    marginTop: 10,
-    marginBottom: 18
-  },
-  forgotPassText: {
-    color: COLORS.primary,
-    fontSize: 13,
-    fontWeight: "600"
+    padding: 4
   },
   signInBtn: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: COLORS.primary,
-    height: 52,
-    borderRadius: 16,
-    ...SHADOWS.glowPrimary
+    height: 44,
+    borderRadius: 10,
+    marginTop: 18
   },
   signInBtnText: {
     color: "#FFFFFF",
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "700"
   },
   dividerRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 20
+    marginVertical: 18
   },
   dividerLine: {
     flex: 1,
@@ -324,14 +322,14 @@ const styles = StyleSheet.create({
   },
   dividerText: {
     color: COLORS.textDim,
-    fontSize: 12,
-    paddingHorizontal: 12,
+    fontSize: 11,
+    paddingHorizontal: 10,
     fontWeight: "500"
   },
   socialBtn: {
-    height: 48,
-    borderRadius: 14,
-    backgroundColor: "rgba(255, 255, 255, 0.04)",
+    height: 42,
+    borderRadius: 10,
+    backgroundColor: COLORS.background,
     borderWidth: 1,
     borderColor: COLORS.cardBorder,
     alignItems: "center",
@@ -339,21 +337,21 @@ const styles = StyleSheet.create({
   },
   socialBtnText: {
     color: COLORS.text,
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: "600"
   },
   footer: {
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: 28
+    marginTop: 24
   },
   footerText: {
     color: COLORS.textMuted,
-    fontSize: 14
+    fontSize: 13
   },
   signUpText: {
     color: COLORS.primary,
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: "700"
   }
 });

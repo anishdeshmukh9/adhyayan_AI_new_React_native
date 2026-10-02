@@ -2,8 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { Sparkles, Mail, Lock, CheckCircle2, ArrowRight, ShieldCheck, Cpu } from "lucide-react";
+import { Mail, Lock, CheckCircle2, ArrowRight } from "lucide-react";
 
 const EXAM_OPTIONS = ["JEE Advanced", "NEET-UG", "SAT / GRE", "UPSC", "University STEM"];
 
@@ -19,46 +18,38 @@ export default function LoginPage() {
     setTimeout(() => {
       setIsSubmitting(false);
       alert("Welcome to Adhyayan AI!");
-    }, 1000);
+    }, 800);
   };
 
   return (
-    <div className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-[#030712] px-4 py-12 selection:bg-violet-500/30">
-      {/* Background Radial Glow Halos */}
-      <div className="pointer-events-none absolute -top-40 -left-40 h-96 w-96 rounded-full bg-violet-600/20 blur-[120px]" />
-      <div className="pointer-events-none absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-cyan-500/15 blur-[120px]" />
-
-      <div className="relative z-10 flex w-full max-w-md flex-col items-center">
-        {/* Top Brand Logo & Header */}
+    <div className="flex min-h-screen w-full items-center justify-center bg-[#09090b] px-4 py-12 text-[#fafafa] selection:bg-orange-500/20">
+      <div className="flex w-full max-w-md flex-col items-center">
+        {/* Logo & Header */}
         <div className="mb-8 flex flex-col items-center text-center">
-          <div className="glow-violet mb-4 flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 bg-slate-900/80 p-3 backdrop-blur-xl shadow-2xl">
+          <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-[#27272a] bg-[#18181b] p-2.5 shadow-sm">
             <Image
               src="/assets/logo.png"
-              alt="Adhyayan AI Logo"
-              width={48}
-              height={48}
+              alt="Adhyayan AI"
+              width={40}
+              height={40}
               className="h-auto w-full object-contain"
             />
           </div>
-          <div className="mb-2 flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-3 py-1 text-xs font-semibold tracking-wider text-violet-400">
-            <Cpu className="h-3.5 w-3.5" />
-            INTELLIGENT LEARNING PLATFORM
-          </div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-white">
-            Welcome to <span className="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">Adhyayan AI</span>
+          <h1 className="text-2xl font-bold tracking-tight text-[#fafafa]">
+            Sign in to Adhyayan AI
           </h1>
-          <p className="mt-2 text-sm text-slate-400">
-            Sign in to access your Socratic AI Tutor & Doubt Resolver.
+          <p className="mt-1.5 text-sm text-[#a1a1aa]">
+            Your intelligent AI tutor & doubt resolution workspace.
           </p>
         </div>
 
-        {/* Auth Glass Card */}
-        <div className="glass-panel w-full rounded-3xl p-8 shadow-2xl">
-          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-            {/* Target Exam Selector */}
+        {/* Auth Card */}
+        <div className="w-full rounded-2xl border border-[#27272a] bg-[#18181b] p-7 shadow-lg">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            {/* Target Academic Goal */}
             <div>
-              <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-400">
-                Target Academic Goal
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[#a1a1aa]">
+                Target Exam / Goal
               </label>
               <div className="flex flex-wrap gap-2">
                 {EXAM_OPTIONS.map((exam) => {
@@ -68,14 +59,14 @@ export default function LoginPage() {
                       type="button"
                       key={exam}
                       onClick={() => setSelectedExam(exam)}
-                      className={`flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-medium transition-all ${
+                      className={`flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors ${
                         isSelected
-                          ? "border-violet-500 bg-violet-500/20 text-white shadow-sm shadow-violet-500/30"
-                          : "border-white/5 bg-white/[0.03] text-slate-400 hover:border-white/15 hover:text-slate-200"
+                          ? "border-orange-500 bg-orange-500/10 text-orange-400 font-semibold"
+                          : "border-[#27272a] bg-[#09090b] text-[#a1a1aa] hover:border-[#3f3f46] hover:text-[#fafafa]"
                       }`}
                     >
                       {exam}
-                      {isSelected && <CheckCircle2 className="h-3 w-3 text-violet-400" />}
+                      {isSelected && <CheckCircle2 className="h-3 w-3 text-orange-400" />}
                     </button>
                   );
                 })}
@@ -84,18 +75,18 @@ export default function LoginPage() {
 
             {/* Email Field */}
             <div>
-              <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-400">
+              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#a1a1aa]">
                 Email Address
               </label>
               <div className="relative flex items-center">
-                <Mail className="pointer-events-none absolute left-3.5 h-4 w-4 text-slate-500" />
+                <Mail className="pointer-events-none absolute left-3.5 h-4 w-4 text-[#71717a]" />
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="scholar@adhyayan.ai"
-                  className="h-11 w-full rounded-xl border border-white/10 bg-slate-950/60 pl-10 pr-4 text-sm text-white placeholder-slate-600 transition-all focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
+                  placeholder="student@adhyayan.ai"
+                  className="h-10 w-full rounded-lg border border-[#27272a] bg-[#09090b] pl-10 pr-3.5 text-sm text-[#fafafa] placeholder-[#71717a] transition-colors focus:border-orange-500 focus:outline-none"
                 />
               </div>
             </div>
@@ -103,22 +94,22 @@ export default function LoginPage() {
             {/* Password Field */}
             <div>
               <div className="mb-1.5 flex items-center justify-between">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                <label className="text-xs font-semibold uppercase tracking-wider text-[#a1a1aa]">
                   Password
                 </label>
-                <a href="#" className="text-xs font-medium text-violet-400 hover:underline">
-                  Forgot?
+                <a href="#" className="text-xs font-medium text-orange-400 hover:underline">
+                  Forgot password?
                 </a>
               </div>
               <div className="relative flex items-center">
-                <Lock className="pointer-events-none absolute left-3.5 h-4 w-4 text-slate-500" />
+                <Lock className="pointer-events-none absolute left-3.5 h-4 w-4 text-[#71717a]" />
                 <input
                   type="password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••••••"
-                  className="h-11 w-full rounded-xl border border-white/10 bg-slate-950/60 pl-10 pr-4 text-sm text-white placeholder-slate-600 transition-all focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
+                  className="h-10 w-full rounded-lg border border-[#27272a] bg-[#09090b] pl-10 pr-3.5 text-sm text-[#fafafa] placeholder-[#71717a] transition-colors focus:border-orange-500 focus:outline-none"
                 />
               </div>
             </div>
@@ -127,35 +118,33 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="glow-violet mt-2 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 font-semibold text-white transition-all hover:brightness-110 active:scale-[0.99] disabled:opacity-50"
+              className="mt-2 flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-orange-500 text-sm font-semibold text-white transition-colors hover:bg-orange-600 active:scale-[0.99] disabled:opacity-50"
             >
-              <Sparkles className="h-4 w-4" />
-              <span>{isSubmitting ? "Authenticating..." : "Sign In to Workspace"}</span>
+              <span>{isSubmitting ? "Signing In..." : "Continue to Workspace"}</span>
               <ArrowRight className="h-4 w-4" />
             </button>
           </form>
 
-          {/* Social Divider */}
-          <div className="my-6 flex items-center gap-3">
-            <div className="h-[1px] flex-1 bg-white/10" />
-            <span className="text-xs uppercase tracking-wider text-slate-500">or</span>
-            <div className="h-[1px] flex-1 bg-white/10" />
+          {/* Divider */}
+          <div className="my-5 flex items-center gap-3">
+            <div className="h-[1px] flex-1 bg-[#27272a]" />
+            <span className="text-xs uppercase tracking-wider text-[#71717a]">or</span>
+            <div className="h-[1px] flex-1 bg-[#27272a]" />
           </div>
 
-          {/* 1-Tap Google Button */}
+          {/* Google Sign In */}
           <button
             type="button"
-            className="flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] text-sm font-medium text-slate-200 transition-all hover:bg-white/[0.08]"
+            className="flex h-10 w-full items-center justify-center gap-2 rounded-lg border border-[#27272a] bg-[#09090b] text-sm font-medium text-[#fafafa] transition-colors hover:bg-[#27272a]"
           >
             <span>Continue with Google</span>
           </button>
         </div>
 
-        {/* Bottom Trust Badge */}
-        <div className="mt-8 flex items-center gap-2 text-xs text-slate-500">
-          <ShieldCheck className="h-4 w-4 text-emerald-500" />
-          <span>Secured with Supabase Row-Level Security</span>
-        </div>
+        {/* Footer */}
+        <p className="mt-6 text-center text-xs text-[#71717a]">
+          By continuing, you agree to our Terms of Service and Privacy Policy.
+        </p>
       </div>
     </div>
   );

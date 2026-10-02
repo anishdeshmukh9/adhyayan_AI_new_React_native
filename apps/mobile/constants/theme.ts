@@ -1,47 +1,39 @@
 export const COLORS = {
-  // 1. Deep Obsidian Void
-  background: "#030712",
-  // 2. Frosted Dark Glass Surface
-  card: "#0F172A",
-  cardBorder: "#1E293B",
-  cardGlass: "rgba(15, 23, 42, 0.8)",
-  // 3. Electric Hyper-Violet (Primary Brand)
-  primary: "#8B5CF6",
-  primaryHover: "#7C3AED",
-  primaryGlow: "rgba(139, 92, 246, 0.35)",
-  // 4. Cyber Cyan Glow (Secondary Accent)
-  secondary: "#06B6D4",
-  secondaryGlow: "rgba(6, 182, 212, 0.35)",
-  // 5. Crisp Contrast Typography
-  text: "#F8FAFC",
-  textMuted: "#94A3B8",
-  textDim: "#64748B",
-  // Functional Colors
+  // Backgrounds & Neutral Surfaces
+  background: "#09090B",       // Deep Neutral Charcoal (Zinc-950)
+  card: "#18181B",             // Clean Surface (Zinc-900)
+  cardBorder: "#27272A",       // Subtle 1px Border (Zinc-800)
+  cardHover: "#27272A",
+
+  // Primary Brand Accent: Warm Premium Orange
+  primary: "#F97316",          // Orange-500
+  primaryHover: "#EA580C",     // Orange-600
+  primaryMuted: "rgba(249, 115, 22, 0.12)",
+
+  // Typography (Clean Whites & Grays)
+  text: "#FAFAFA",             // Crisp White (Zinc-50)
+  textMuted: "#A1A1AA",        // Slate Gray (Zinc-400)
+  textDim: "#71717A",          // Dim Gray (Zinc-500)
+
+  // Functional Status
   success: "#10B981",
   warning: "#F59E0B",
   error: "#EF4444"
 } as const;
 
 export const SHADOWS = {
-  glowPrimary: {
-    shadowColor: "#8B5CF6",
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.45,
-    shadowRadius: 16,
-    elevation: 8
-  },
-  glowSecondary: {
-    shadowColor: "#06B6D4",
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.45,
-    shadowRadius: 16,
-    elevation: 8
-  },
   card: {
     shadowColor: "#000000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 8,
+    elevation: 3
+  },
+  primaryBtn: {
+    shadowColor: "#F97316",
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 12,
+    shadowOpacity: 0.25,
+    shadowRadius: 10,
     elevation: 4
   }
 } as const;
