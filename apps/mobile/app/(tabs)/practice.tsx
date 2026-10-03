@@ -61,7 +61,8 @@ export default function PracticeScreen() {
   };
 
   const handleNextQuestion = () => {
-    if (selectedOption === SAMPLE_QUIZ[currentQIndex].correctIndex) {
+    const currentQ = SAMPLE_QUIZ[currentQIndex];
+    if (currentQ && selectedOption === currentQ.correctIndex) {
       setScore((prev) => prev + 1);
     }
 
@@ -191,12 +192,12 @@ export default function PracticeScreen() {
             </View>
 
             <Text style={styles.questionText}>
-              {SAMPLE_QUIZ[currentQIndex].question}
+              {SAMPLE_QUIZ[currentQIndex]?.question}
             </Text>
 
             {/* Options */}
             <View style={styles.optionsList}>
-              {SAMPLE_QUIZ[currentQIndex].options.map((opt, idx) => {
+              {SAMPLE_QUIZ[currentQIndex]?.options.map((opt, idx) => {
                 const isSelected = selectedOption === idx;
                 return (
                   <TouchableOpacity

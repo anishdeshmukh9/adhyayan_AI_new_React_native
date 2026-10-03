@@ -47,16 +47,15 @@ const SAMPLE_EPISODES: PodcastEpisode[] = [
 
 export default function PodcastScreen() {
   const router = useRouter();
+  const speeds = ["1.0x", "1.25x", "1.5x", "2.0x"];
   const [isPlaying, setIsPlaying] = useState(true);
   const [playbackSpeed, setPlaybackSpeed] = useState("1.0x");
-  const [activeEpisode, setActiveEpisode] = useState<PodcastEpisode>(SAMPLE_EPISODES[0]);
-
-  const speeds = ["1.0x", "1.25x", "1.5x", "2.0x"];
+  const [activeEpisode, setActiveEpisode] = useState<PodcastEpisode>(SAMPLE_EPISODES[0]!);
 
   const cycleSpeed = () => {
     const currentIndex = speeds.indexOf(playbackSpeed);
     const nextIndex = (currentIndex + 1) % speeds.length;
-    setPlaybackSpeed(speeds[nextIndex]);
+    setPlaybackSpeed(speeds[nextIndex] ?? "1.0x");
   };
 
   return (
