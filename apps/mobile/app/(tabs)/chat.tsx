@@ -26,18 +26,18 @@ const INITIAL_MESSAGES: ChatMessage[] = [
   {
     id: "msg-1",
     sender: "assistant",
-    thinking: "Analyzing student context and formulating Socratic step-by-step reasoning...",
-    text: "Hello! I am your Socratic AI Tutor for Adhyayan. What STEM concept or problem would you like to explore today?",
-    formula: "\\nabla \\cdot \\mathbf{E} = \\frac{\\rho}{\\varepsilon_0}",
+    thinking: "Preparing step-by-step explanation...",
+    text: "Hello! What question or topic would you like to study today?",
+    formula: "F = m \\cdot a",
     timestamp: "10:30 AM",
   },
 ];
 
 const QUICK_PROMPTS = [
-  "Explain Schrödinger Equation",
-  "Derive Carnot Efficiency",
-  "Eigenvalues geometric intuition",
-  "Dijkstra vs A* Algorithm",
+  "Explain Newton's laws of motion",
+  "How does photosynthesis work?",
+  "Derive quadratic formula",
+  "Explain binary search algorithm",
 ];
 
 export default function ChatScreen() {
@@ -89,8 +89,8 @@ export default function ChatScreen() {
               <Ionicons name="sparkles" size={18} color={COLORS.primary} />
             </View>
             <View>
-              <Text style={styles.headerTitle}>Socratic AI Tutor</Text>
-              <Text style={styles.headerSubtitle}>Step-by-step concept resolution</Text>
+              <Text style={styles.headerTitle}>AI Tutor</Text>
+              <Text style={styles.headerSubtitle}>Online • Ready to help</Text>
             </View>
           </View>
 

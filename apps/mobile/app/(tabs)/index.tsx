@@ -66,7 +66,7 @@ export default function HomeDashboard() {
             />
             <TextInput
               style={styles.askInput}
-              placeholder="Ask any STEM doubt or concept..."
+              placeholder="Ask any question or doubt..."
               placeholderTextColor={COLORS.textMuted}
               value={quickQuestion}
               onChangeText={setQuickQuestion}

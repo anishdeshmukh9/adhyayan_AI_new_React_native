@@ -1,6 +1,6 @@
 /**
  * Adhyayan AI - Central UI & Feature Configuration Registry
- * Config-Driven Schema for Dynamic Rendering (Mobile & Web)
+ * Simple, human-friendly feature configurations
  */
 
 export interface FeatureTool {
@@ -29,13 +29,12 @@ export interface RecentDoubt {
   question: string;
   subject: string;
   timeAgo: string;
-  hasSolution: boolean;
 }
 
 export const APP_CONFIG = {
   appName: "Adhyayan AI",
-  appTagline: "Intelligent Socratic Learning & Doubt Resolution",
-  version: "0.1.0",
+  appTagline: "AI Tutor & Learning Workspace",
+  version: "0.1.2",
 } as const;
 
 export const NAVIGATION_TABS: NavigationTab[] = [
@@ -69,17 +68,17 @@ export const STUDY_TOOLS: FeatureTool[] = [
   {
     id: "scan_question",
     title: "Scan Question",
-    description: "Instant camera OCR extraction with step-by-step Socratic solution.",
+    description: "Take a photo of any question to get an instant explanation.",
     route: "/scan",
     icon: "scan-outline",
-    badge: { text: "VISION OCR", variant: "primary" },
+    badge: { text: "VISION", variant: "primary" },
     category: "core",
     enabled: true,
   },
   {
     id: "pdf_chat",
-    title: "Document & Book Chat",
-    description: "Upload textbook chapters or lecture notes for interactive doubt resolution.",
+    title: "Document Chat",
+    description: "Upload study notes or books to ask questions and find summaries.",
     route: "/pdf-chat",
     icon: "document-text-outline",
     badge: { text: "PDF", variant: "primary" },
@@ -89,7 +88,7 @@ export const STUDY_TOOLS: FeatureTool[] = [
   {
     id: "youtube_learning",
     title: "Video Learning",
-    description: "Paste lecture URLs to get interactive timestamps and formula extractions.",
+    description: "Paste a lecture link to get key timestamps and notes.",
     route: "/youtube",
     icon: "play-circle-outline",
     badge: { text: "VIDEO", variant: "accent" },
@@ -98,8 +97,8 @@ export const STUDY_TOOLS: FeatureTool[] = [
   },
   {
     id: "podcast_player",
-    title: "Audio Study Podcast",
-    description: "Listen to AI-synthesized audio recaps of complex STEM concepts.",
+    title: "Audio Podcast",
+    description: "Listen to audio summaries of your study topics on the go.",
     route: "/podcast",
     icon: "headset-outline",
     badge: { text: "AUDIO", variant: "accent" },
@@ -108,11 +107,11 @@ export const STUDY_TOOLS: FeatureTool[] = [
   },
   {
     id: "adaptive_tests",
-    title: "Adaptive Test Generator",
-    description: "Generate customized practice mock tests focused on weak topics.",
+    title: "Practice Tests",
+    description: "Generate practice quizzes to test your understanding.",
     route: "/(tabs)/practice",
     icon: "create-outline",
-    badge: { text: "AI TEST", variant: "success" },
+    badge: { text: "PRACTICE", variant: "success" },
     category: "practice",
     enabled: true,
   },
@@ -121,23 +120,20 @@ export const STUDY_TOOLS: FeatureTool[] = [
 export const RECENT_DOUBTS_SAMPLE: RecentDoubt[] = [
   {
     id: "1",
-    question: "Derivation of Euler-Lagrange equations in Classical Mechanics",
+    question: "How does Newton's second law apply on an inclined plane?",
     subject: "Physics",
     timeAgo: "15m ago",
-    hasSolution: true,
   },
   {
     id: "2",
-    question: "Eigenvalues and eigenvectors geometric interpretation in 3D space",
-    subject: "Linear Algebra",
+    question: "Explain matrix multiplication step-by-step",
+    subject: "Mathematics",
     timeAgo: "2h ago",
-    hasSolution: true,
   },
   {
     id: "3",
-    question: "Thermodynamic efficiency calculation in Carnot cycle",
-    subject: "Thermodynamics",
+    question: "Difference between mitosis and meiosis",
+    subject: "Biology",
     timeAgo: "Yesterday",
-    hasSolution: true,
   },
 ];

@@ -127,7 +127,7 @@ export default function ScanQuestionScreen() {
           activeOpacity={0.85}
         >
           <Ionicons name="sparkles" size={18} color={COLORS.textInverse} />
-          <Text style={styles.solveBtnText}>Solve Step-by-Step with Socratic AI</Text>
+          <Text style={styles.solveBtnText}>Get Explanation & Solution</Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
