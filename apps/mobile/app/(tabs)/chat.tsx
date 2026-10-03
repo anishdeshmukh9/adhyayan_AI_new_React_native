@@ -3,15 +3,16 @@ import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
   ScrollView,
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { COLORS, SPACING, RADII, SHADOWS, TYPOGRAPHY } from "@/constants/theme";
+import { COLORS, SPACING, RADII, SHADOWS } from "@/constants/theme";
+import { Card, Badge, Empty, Button } from "@/components/ui";
 
 interface ChatMessage {
   id: string;
@@ -22,17 +23,6 @@ interface ChatMessage {
   timestamp: string;
 }
 
-const INITIAL_MESSAGES: ChatMessage[] = [
-  {
-    id: "msg-1",
-    sender: "assistant",
-    thinking: "Preparing step-by-step explanation...",
-    text: "Hello! What question or topic would you like to study today?",
-    formula: "F = m \\cdot a",
-    timestamp: "10:30 AM",
-  },
-];
-
 const QUICK_PROMPTS = [
   "Explain Newton's laws of motion",
   "How does photosynthesis work?",
@@ -41,45 +31,56 @@ const QUICK_PROMPTS = [
 ];
 
 export default function ChatScreen() {
-  const [messages, setMessages] = useState<ChatMessage[]>(INITIAL_MESSAGES);
+  const insets = useSafeAreaInsets();
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputText, setInputText] = useState("");
+  const [isThinking, setIsThinking] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
 
-  const handleSend = () => {
-    if (!inputText.trim()) return;
+  const handleSend = (textToSend?: string) => {
+    const text = textToSend || inputText;
+    if (!text.trim()) return;
 
     const userMessage: ChatMessage = {
       id: `user-${Date.now()}`,
       sender: "user",
-      text: inputText.trim(),
+      text: text.trim(),
       timestamp: "Just now",
     };
 
-    const aiResponse: ChatMessage = {
-      id: `ai-${Date.now() + 1}`,
-      sender: "assistant",
-      thinking: "Breaking problem into first-principles fundamentals...",
-      text: `Let's work through this step-by-step. To understand "${inputText.trim()}", first consider the underlying physical principles. What is the fundamental conservation law governing this system?`,
-      timestamp: "Just now",
-    };
-
-    setMessages((prev) => [...prev, userMessage, aiResponse]);
+    setMessages((prev) => [...prev, userMessage]);
     setInputText("");
+    setIsThinking(true);
 
     setTimeout(() => {
       scrollViewRef.current?.scrollToEnd({ animated: true });
     }, 100);
-  };
 
-  const handleQuickPrompt = (prompt: string) => {
-    setInputText(prompt);
+    // Simulate Socratic AI streaming response
+    setTimeout(() => {
+      const aiResponse: ChatMessage = {
+        id: `ai-${Date.now() + 1}`,
+        sender: "assistant",
+        thinking: "Analyzing problem from first principles...",
+        text: `To solve "${text.trim()}", let's start with the fundamental equation governing this system. Notice how each variable behaves as boundary conditions change:`,
+        formula: "F = m \\cdot a, \\quad W = F \\cdot d",
+        timestamp: "Just now",
+      };
+
+      setMessages((prev) => [...prev, aiResponse]);
+      setIsThinking(false);
+
+      setTimeout(() => {
+        scrollViewRef.current?.scrollToEnd({ animated: true });
+      }, 100);
+    }, 1200);
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <View style={[styles.container, { paddingTop: insets.top || SPACING.lg }]}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.container}
+        style={styles.keyboardContainer}
         keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
       >
         {/* Header */}
@@ -105,55 +106,73 @@ export default function ChatScreen() {
           contentContainerStyle={styles.messageList}
           showsVerticalScrollIndicator={false}
         >
-          {messages.map((msg) => {
-            const isAI = msg.sender === "assistant";
-            return (
-              <View
-                key={msg.id}
-                style={[
-                  styles.messageWrapper,
-                  isAI ? styles.messageWrapperAI : styles.messageWrapperUser,
-                ]}
-              >
-                {/* AI Thinking Bubble */}
-                {isAI && msg.thinking && (
-                  <View style={styles.thinkingContainer}>
-                    <Ionicons name="bulb-outline" size={14} color={COLORS.accent} />
-                    <Text style={styles.thinkingText}>{msg.thinking}</Text>
-                  </View>
-                )}
-
+          {messages.length > 0 ? (
+            messages.map((msg) => {
+              const isAI = msg.sender === "assistant";
+              return (
                 <View
+                  key={msg.id}
                   style={[
-                    styles.messageBubble,
-                    isAI ? styles.messageBubbleAI : styles.messageBubbleUser,
+                    styles.messageWrapper,
+                    isAI ? styles.messageWrapperAI : styles.messageWrapperUser,
                   ]}
                 >
-                  <Text
-                    style={[
-                      styles.messageText,
-                      isAI ? styles.messageTextAI : styles.messageTextUser,
-                    ]}
-                  >
-                    {msg.text}
-                  </Text>
-
-                  {/* Formula View Block */}
-                  {msg.formula && (
-                    <View style={styles.formulaBlock}>
-                      <View style={styles.formulaHeader}>
-                        <Ionicons name="calculator-outline" size={14} color={COLORS.primary} />
-                        <Text style={styles.formulaLabel}>Key Formula</Text>
-                      </View>
-                      <Text style={styles.formulaText}>{msg.formula}</Text>
+                  {/* AI Thinking Bubble */}
+                  {isAI && msg.thinking && (
+                    <View style={styles.thinkingContainer}>
+                      <Ionicons name="bulb-outline" size={14} color={COLORS.accent} />
+                      <Text style={styles.thinkingText}>{msg.thinking}</Text>
                     </View>
                   )}
-                </View>
 
-                <Text style={styles.messageTime}>{msg.timestamp}</Text>
+                  <View
+                    style={[
+                      styles.messageBubble,
+                      isAI ? styles.messageBubbleAI : styles.messageBubbleUser,
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.messageText,
+                        isAI ? styles.messageTextAI : styles.messageTextUser,
+                      ]}
+                    >
+                      {msg.text}
+                    </Text>
+
+                    {/* Formula View Block */}
+                    {msg.formula && (
+                      <View style={styles.formulaBlock}>
+                        <View style={styles.formulaHeader}>
+                          <Ionicons name="calculator-outline" size={14} color={COLORS.primary} />
+                          <Text style={styles.formulaLabel}>Key Formula</Text>
+                        </View>
+                        <Text style={styles.formulaText}>{msg.formula}</Text>
+                      </View>
+                    )}
+                  </View>
+
+                  <Text style={styles.messageTime}>{msg.timestamp}</Text>
+                </View>
+              );
+            })
+          ) : (
+            <Empty
+              icon="sparkles-outline"
+              title="What would you like to study?"
+              description="Type any question, equation, or topic below to begin."
+              style={styles.emptyContainer}
+            />
+          )}
+
+          {isThinking && (
+            <View style={[styles.messageWrapper, styles.messageWrapperAI]}>
+              <View style={styles.thinkingContainer}>
+                <Ionicons name="sync-outline" size={14} color={COLORS.primary} />
+                <Text style={styles.thinkingText}>AI Tutor is thinking...</Text>
               </View>
-            );
-          })}
+            </View>
+          )}
         </ScrollView>
 
         {/* Quick Suggestion Chips */}
@@ -163,7 +182,7 @@ export default function ChatScreen() {
               <TouchableOpacity
                 key={prompt}
                 style={styles.promptChip}
-                onPress={() => handleQuickPrompt(prompt)}
+                onPress={() => handleSend(prompt)}
                 activeOpacity={0.7}
               >
                 <Text style={styles.promptChipText}>{prompt}</Text>
@@ -180,7 +199,7 @@ export default function ChatScreen() {
 
           <TextInput
             style={styles.textInput}
-            placeholder="Type your doubt or equation..."
+            placeholder="Type your question or equation..."
             placeholderTextColor={COLORS.textMuted}
             value={inputText}
             onChangeText={setInputText}
@@ -192,7 +211,7 @@ export default function ChatScreen() {
               styles.sendBtn,
               inputText.trim() ? styles.sendBtnActive : styles.sendBtnInactive,
             ]}
-            onPress={handleSend}
+            onPress={() => handleSend()}
             disabled={!inputText.trim()}
             activeOpacity={0.8}
           >
@@ -204,16 +223,16 @@ export default function ChatScreen() {
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
+  container: {
     flex: 1,
     backgroundColor: COLORS.background,
   },
-  container: {
+  keyboardContainer: {
     flex: 1,
   },
   header: {
@@ -257,6 +276,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: SPACING.lg,
     paddingVertical: SPACING.lg,
     gap: SPACING.lg,
+    flexGrow: 1,
+  },
+  emptyContainer: {
+    marginVertical: "auto",
   },
   messageWrapper: {
     maxWidth: "85%",

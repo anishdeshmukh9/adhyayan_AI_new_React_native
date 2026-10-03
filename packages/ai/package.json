@@ -1,0 +1,18 @@
+{
+  "name": "@adhyayan/ai",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "dependencies": {
+    "@adhyayan/types": "workspace:*",
+    "@ai-sdk/google": "^1.1.18",
+    "@ai-sdk/openai": "^1.1.13",
+    "ai": "^4.1.45",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.9",
+    "typescript": "^5.8.2"
+  }
+}

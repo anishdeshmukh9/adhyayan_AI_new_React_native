@@ -3,27 +3,25 @@ import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
   ScrollView,
   TouchableOpacity,
   TextInput,
-  Image,
 } from "react-native";
 import { useRouter } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { COLORS, SPACING, RADII, SHADOWS, TYPOGRAPHY } from "@/constants/theme";
-import { STUDY_TOOLS, RECENT_DOUBTS_SAMPLE, FeatureTool } from "@/constants/config";
+import { COLORS, SPACING, RADII, SHADOWS } from "@/constants/theme";
+import { STUDY_TOOLS, FeatureTool, RecentDoubt } from "@/constants/config";
+import { Card, Badge, Empty, Button } from "@/components/ui";
 
 export default function HomeDashboard() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const [quickQuestion, setQuickQuestion] = useState("");
+  const [recentDoubts, setRecentDoubts] = useState<RecentDoubt[]>([]);
 
   const handleAskAI = () => {
-    if (quickQuestion.trim()) {
-      router.push("/(tabs)/chat");
-    } else {
-      router.push("/(tabs)/chat");
-    }
+    router.push("/(tabs)/chat");
   };
 
   const handleToolPress = (tool: FeatureTool) => {
@@ -31,7 +29,7 @@ export default function HomeDashboard() {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <View style={[styles.container, { paddingTop: insets.top || SPACING.lg }]}>
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
@@ -48,15 +46,11 @@ export default function HomeDashboard() {
             </View>
           </View>
 
-          {/* Streak Badge */}
-          <View style={styles.streakBadge}>
-            <Ionicons name="flame" size={16} color={COLORS.accent} />
-            <Text style={styles.streakText}>5 Days</Text>
-          </View>
+          <Badge variant="accent">🔥 5 Days</Badge>
         </View>
 
         {/* Quick Question Input Dock */}
-        <View style={styles.askDock}>
+        <Card style={styles.askDock} glassy>
           <View style={styles.askInputContainer}>
             <Ionicons
               name="sparkles"
@@ -81,15 +75,15 @@ export default function HomeDashboard() {
             >
               <Ionicons name="camera-outline" size={20} color={COLORS.textSecondary} />
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.dockSendBtn}
+            <Button
+              size="sm"
+              variant="primary"
               onPress={handleAskAI}
-              activeOpacity={0.8}
             >
-              <Ionicons name="arrow-forward" size={18} color={COLORS.textInverse} />
-            </TouchableOpacity>
+              <Ionicons name="arrow-forward" size={16} color={COLORS.textInverse} />
+            </Button>
           </View>
-        </View>
+        </Card>
 
         {/* Study Tools Section (Config-Driven) */}
         <View style={styles.sectionHeader}>
@@ -99,7 +93,7 @@ export default function HomeDashboard() {
 
         <View style={styles.toolsGrid}>
           {STUDY_TOOLS.map((tool) => {
-            const isAccent = tool.badge?.variant === "accent";
+            const badgeVariant = tool.badge?.variant ?? "primary";
             return (
               <TouchableOpacity
                 key={tool.id}
@@ -111,31 +105,19 @@ export default function HomeDashboard() {
                   <View
                     style={[
                       styles.toolIconContainer,
-                      isAccent ? styles.toolIconAccent : styles.toolIconPrimary,
+                      badgeVariant === "accent" ? styles.toolIconAccent : styles.toolIconPrimary,
                     ]}
                   >
                     <Ionicons
                       name={tool.icon as any}
                       size={22}
-                      color={isAccent ? COLORS.accent : COLORS.primary}
+                      color={badgeVariant === "accent" ? COLORS.accent : COLORS.primary}
                     />
                   </View>
                   {tool.badge && (
-                    <View
-                      style={[
-                        styles.toolBadge,
-                        isAccent ? styles.toolBadgeAccent : styles.toolBadgePrimary,
-                      ]}
-                    >
-                      <Text
-                        style={[
-                          styles.toolBadgeText,
-                          isAccent ? styles.toolBadgeTextAccent : styles.toolBadgeTextPrimary,
-                        ]}
-                      >
-                        {tool.badge.text}
-                      </Text>
-                    </View>
+                    <Badge variant={badgeVariant}>
+                      {tool.badge.text}
+                    </Badge>
                   )}
                 </View>
                 <Text style={styles.toolTitle}>{tool.title}</Text>
@@ -153,58 +135,76 @@ export default function HomeDashboard() {
           <Text style={styles.sectionSubtitle}>Pick up where you left off</Text>
         </View>
 
-        <View style={styles.recentList}>
-          {RECENT_DOUBTS_SAMPLE.map((doubt) => (
-            <TouchableOpacity
-              key={doubt.id}
-              style={styles.recentItem}
-              onPress={() => router.push("/(tabs)/chat")}
-              activeOpacity={0.7}
-            >
-              <View style={styles.recentIconBox}>
-                <Ionicons
-                  name="chatbubble-outline"
-                  size={18}
-                  color={COLORS.primary}
-                />
-              </View>
-              <View style={styles.recentContent}>
-                <Text style={styles.recentQuestion} numberOfLines={1}>
-                  {doubt.question}
-                </Text>
-                <View style={styles.recentMeta}>
-                  <Text style={styles.recentSubject}>{doubt.subject}</Text>
-                  <Text style={styles.recentDot}>•</Text>
-                  <Text style={styles.recentTime}>{doubt.timeAgo}</Text>
+        {recentDoubts.length > 0 ? (
+          <View style={styles.recentList}>
+            {recentDoubts.map((doubt) => (
+              <TouchableOpacity
+                key={doubt.id}
+                style={styles.recentItem}
+                onPress={() => router.push("/(tabs)/chat")}
+                activeOpacity={0.7}
+              >
+                <View style={styles.recentIconBox}>
+                  <Ionicons
+                    name="chatbubble-outline"
+                    size={18}
+                    color={COLORS.primary}
+                  />
                 </View>
-              </View>
-              <Ionicons
-                name="chevron-forward"
-                size={18}
-                color={COLORS.textMuted}
-              />
-            </TouchableOpacity>
-          ))}
-        </View>
+                <View style={styles.recentContent}>
+                  <Text style={styles.recentQuestion} numberOfLines={1}>
+                    {doubt.question}
+                  </Text>
+                  <View style={styles.recentMeta}>
+                    <Text style={styles.recentSubject}>{doubt.subject}</Text>
+                    <Text style={styles.recentDot}>•</Text>
+                    <Text style={styles.recentTime}>{doubt.timeAgo}</Text>
+                  </View>
+                </View>
+                <Ionicons
+                  name="chevron-forward"
+                  size={18}
+                  color={COLORS.textMuted}
+                />
+              </TouchableOpacity>
+            ))}
+          </View>
+        ) : (
+          <Empty
+            icon="chatbubbles-outline"
+            title="No Discussions Yet"
+            description="Ask any question above or scan a problem to start your first session."
+            action={
+              <Button
+                variant="default"
+                size="sm"
+                onPress={handleAskAI}
+              >
+                Start a New Discussion
+              </Button>
+            }
+          />
+        )}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
+  container: {
     flex: 1,
     backgroundColor: COLORS.background,
   },
   scrollContent: {
     paddingHorizontal: SPACING.xl,
-    paddingVertical: SPACING.lg,
+    paddingBottom: SPACING.hero,
   },
   topBar: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: SPACING.xl,
+    paddingTop: SPACING.xs,
   },
   userProfile: {
     flexDirection: "row",
@@ -235,30 +235,9 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: COLORS.text,
   },
-  streakBadge: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: COLORS.accentLight,
-    paddingHorizontal: SPACING.md,
-    paddingVertical: SPACING.xs + 2,
-    borderRadius: RADII.full,
-    borderWidth: 1,
-    borderColor: COLORS.accentBorder,
-    gap: SPACING.xs,
-  },
-  streakText: {
-    fontSize: 13,
-    fontWeight: "700",
-    color: COLORS.accent,
-  },
   askDock: {
-    backgroundColor: COLORS.surface,
-    borderRadius: RADII.xl,
-    borderWidth: 1,
-    borderColor: COLORS.border,
     padding: SPACING.md,
     marginBottom: SPACING.xxl,
-    ...SHADOWS.card,
   },
   askInputContainer: {
     flexDirection: "row",
@@ -294,15 +273,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.border,
   },
-  dockSendBtn: {
-    width: 36,
-    height: 36,
-    borderRadius: RADII.md,
-    backgroundColor: COLORS.primary,
-    alignItems: "center",
-    justifyContent: "center",
-    ...SHADOWS.primaryBtn,
-  },
   sectionHeader: {
     marginBottom: SPACING.md,
   },
@@ -323,11 +293,11 @@ const styles = StyleSheet.create({
   },
   toolCard: {
     backgroundColor: COLORS.surface,
-    borderRadius: RADII.lg,
+    borderRadius: RADII.xl,
     padding: SPACING.lg,
     borderWidth: 1,
     borderColor: COLORS.border,
-    ...SHADOWS.subtle,
+    ...SHADOWS.card,
   },
   toolCardTop: {
     flexDirection: "row",
@@ -338,7 +308,7 @@ const styles = StyleSheet.create({
   toolIconContainer: {
     width: 44,
     height: 44,
-    borderRadius: RADII.md,
+    borderRadius: RADII.lg,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -347,31 +317,6 @@ const styles = StyleSheet.create({
   },
   toolIconAccent: {
     backgroundColor: COLORS.accentLight,
-  },
-  toolBadge: {
-    paddingHorizontal: SPACING.sm,
-    paddingVertical: 3,
-    borderRadius: RADII.sm,
-    borderWidth: 1,
-  },
-  toolBadgePrimary: {
-    backgroundColor: COLORS.primaryLight,
-    borderColor: COLORS.primaryBorder,
-  },
-  toolBadgeAccent: {
-    backgroundColor: COLORS.accentLight,
-    borderColor: COLORS.accentBorder,
-  },
-  toolBadgeText: {
-    fontSize: 10,
-    fontWeight: "700",
-    letterSpacing: 0.5,
-  },
-  toolBadgeTextPrimary: {
-    color: COLORS.primary,
-  },
-  toolBadgeTextAccent: {
-    color: COLORS.accent,
   },
   toolTitle: {
     fontSize: 16,
